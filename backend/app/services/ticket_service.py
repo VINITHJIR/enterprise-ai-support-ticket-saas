@@ -15,7 +15,7 @@ class TicketService:
     def create_ticket(
             db: Session,
             complaint_id: int,
-            priority: TicketPriority
+            priority
     ):
 
         return TicketRepository.create(
@@ -43,9 +43,7 @@ class TicketService:
             ticket
     ):
 
-        current_priority = ticket.priority
-
-        if current_priority == TicketPriority.LOW:
+        if ticket.priority == TicketPriority.LOW:
 
             return TicketRepository.update_priority(
                 db,
@@ -53,7 +51,7 @@ class TicketService:
                 TicketPriority.MEDIUM
             )
 
-        if current_priority == TicketPriority.MEDIUM:
+        if ticket.priority == TicketPriority.MEDIUM:
 
             return TicketRepository.update_priority(
                 db,
@@ -62,7 +60,7 @@ class TicketService:
             )
 
         return ticket
-    
+
     @staticmethod
     def get_user_tickets(
             db: Session,
@@ -72,14 +70,4 @@ class TicketService:
         return TicketRepository.get_all_by_user(
             db,
             user_id
-        )
-    @staticmethod
-    def get_ticket(
-            db: Session,
-            complaint_id: int
-    ):
-
-        return TicketRepository.get_by_complaint_id(
-            db,
-            complaint_id
         )
