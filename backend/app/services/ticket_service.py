@@ -1,0 +1,85 @@
+from sqlalchemy.orm import Session
+
+from app.repositories.ticket_repository import (
+    TicketRepository
+)
+
+from app.enums.ticket_enum import (
+    TicketPriority
+)
+
+
+class TicketService:
+
+    @staticmethod
+    def create_ticket(
+            db: Session,
+            complaint_id: int,
+            priority: TicketPriority
+    ):
+
+        return TicketRepository.create(
+            db=db,
+            complaint_id=complaint_id,
+            priority=priority
+        )
+
+    @staticmethod
+    def get_ticket_by_complaint(
+            db: Session,
+            complaint_id: int
+    ):
+
+        return (
+            TicketRepository.get_by_complaint_id(
+                db,
+                complaint_id
+            )
+        )
+
+    @staticmethod
+    def increase_priority(
+            db: Session,
+            ticket
+    ):
+
+        current_priority = ticket.priority
+
+        if current_priority == TicketPriority.LOW:
+
+            return TicketRepository.update_priority(
+                db,
+                ticket,
+                TicketPriority.MEDIUM
+            )
+
+        if current_priority == TicketPriority.MEDIUM:
+
+            return TicketRepository.update_priority(
+                db,
+                ticket,
+                TicketPriority.HIGH
+            )
+
+        return ticket
+    
+    @staticmethod
+    def get_user_tickets(
+            db: Session,
+            user_id: int
+    ):
+
+        return TicketRepository.get_all_by_user(
+            db,
+            user_id
+        )
+    @staticmethod
+    def get_ticket(
+            db: Session,
+            complaint_id: int
+    ):
+
+        return TicketRepository.get_by_complaint_id(
+            db,
+            complaint_id
+        )
