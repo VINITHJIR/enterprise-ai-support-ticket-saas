@@ -8,6 +8,8 @@ class SupportState(TypedDict):
 
     user_id: int
 
+    db: object
+
     is_complaint: bool
 
     category: Optional[str]
