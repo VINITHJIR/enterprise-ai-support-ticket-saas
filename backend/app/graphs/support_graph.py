@@ -56,6 +56,20 @@ def existing_router(state):
 
     return "create_complaint"
 
+def category_router(state):
+
+    category = state["category"]
+
+    if category == "INVOICE":
+        return "invoice_agent"
+
+    if category == "HR_RECRUITMENT":
+        return "hr_agent"
+
+    if category == "GOOGLE_REVIEW":
+        return "review_agent"
+
+    return "response"
 
 # ----------------------------------
 # GRAPH BUILDER
