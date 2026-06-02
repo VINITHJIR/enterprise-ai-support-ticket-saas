@@ -15,8 +15,8 @@ from app.dependencies.auth_dependency import (
 
 from app.models.user_model import User
 
-from app.ai.complaint_analyzer import (
-    analyze_message
+from app.orchestrators.support_orchestrator import (
+    SupportOrchestrator
 )
 
 from app.ai.response_generator import (
@@ -54,13 +54,15 @@ def chat(
         )
 ):
 
-    analysis = analyze_message(
-        request.message
+    result = (
+        SupportOrchestrator.process(
+            request.message
+        )
     )
 
-    # -----------------------
+    analysis = result["analysis"]
+
     # NORMAL CHAT
-    # -----------------------
 
     if not analysis["is_complaint"]:
 
@@ -73,9 +75,7 @@ def chat(
             "response": response
         }
 
-    # -----------------------
     # COMPLAINT FLOW
-    # -----------------------
 
     existing_complaint = (
         ComplaintService.check_existing_complaint(
@@ -85,9 +85,7 @@ def chat(
         )
     )
 
-    # -----------------------
     # DUPLICATE COMPLAINT
-    # -----------------------
 
     if existing_complaint:
 
@@ -125,9 +123,7 @@ def chat(
                 "priority": updated_ticket.priority.value
             }
 
-    # -----------------------
     # NEW COMPLAINT
-    # -----------------------
 
     complaint = (
         ComplaintService.create_complaint(
