@@ -8,45 +8,38 @@ from app.ai.openai_client import llm
 def analyze_message(message: str):
 
     prompt = f"""
-You are an Enterprise Support Ticket AI.
-
-Analyze the user message.
+You are an enterprise support complaint classifier.
 
 Categories:
-- INVOICE
-- HR_RECRUITMENT
-- GOOGLE_REVIEW
 
-Priority:
-- LOW
-- MEDIUM
-- HIGH
+1. INVOICE
+   - invoice
+   - billing
+   - payment
+   - refund
 
-Rules:
+2. HR_RECRUITMENT
+   - recruiter
+   - interview
+   - offer letter
+   - recruitment
+   - hiring
 
-If message is normal conversation:
+3. GOOGLE_REVIEW
+   - google review
+   - business review
+   - rating
 
-Return:
-
-{{
-    "is_complaint": false,
-    "category": null,
-    "priority": null
-}}
-
-If complaint:
-
-Return:
+Return JSON only:
 
 {{
     "is_complaint": true,
-    "category": "INVOICE",
+    "category": "HR_RECRUITMENT",
     "priority": "HIGH"
 }}
 
-Return JSON only.
-
 User Message:
+
 {message}
 """
 

@@ -7,7 +7,9 @@ from langgraph.graph import (
 from app.states.support_state import (
     SupportState
 )
-
+from app.nodes.category_router_node import (
+    category_router_node
+)
 from app.nodes.analyze_node import (
     analyze_node
 )
@@ -36,6 +38,17 @@ from app.nodes.response_node import (
     response_node
 )
 
+from app.nodes.invoice_agent_node import (
+    invoice_agent_node
+)
+
+from app.nodes.hr_agent_node import (
+    hr_agent_node
+)
+
+from app.nodes.review_agent_node import (
+    review_agent_node
+)
 
 # ----------------------------------
 # ROUTERS
@@ -54,7 +67,8 @@ def existing_router(state):
     if state["complaint_exists"]:
         return "increase_priority"
 
-    return "create_complaint"
+    return "category_router"
+
 
 def category_router(state):
 
@@ -71,8 +85,9 @@ def category_router(state):
 
     return "response"
 
+
 # ----------------------------------
-# GRAPH BUILDER
+# GRAPH
 # ----------------------------------
 
 builder = StateGraph(
@@ -91,6 +106,24 @@ builder.add_node(
 builder.add_node(
     "check_existing",
     check_existing_node
+)
+
+builder.add_node(
+    "invoice_agent",
+    invoice_agent_node
+)
+builder.add_node(
+    "category_router",
+    category_router_node
+)
+builder.add_node(
+    "hr_agent",
+    hr_agent_node
+)
+
+builder.add_node(
+    "review_agent",
+    review_agent_node
 )
 
 builder.add_node(
@@ -149,22 +182,42 @@ builder.add_conditional_edges(
     existing_router,
     {
         "increase_priority": "increase_priority",
-        "create_complaint": "create_complaint"
+        "category_router": "category_router"
     }
 )
 
 # ----------------------------------
-# DUPLICATE FLOW
+# CATEGORY ROUTING
+# ----------------------------------
+
+builder.add_conditional_edges(
+    "category_router",
+    category_router,
+    {
+        "invoice_agent": "invoice_agent",
+        "hr_agent": "hr_agent",
+        "review_agent": "review_agent",
+        "response": "response"
+    }
+)
+
+# ----------------------------------
+# AGENT FLOWS
 # ----------------------------------
 
 builder.add_edge(
-    "increase_priority",
-    "escalation"
+    "invoice_agent",
+    "create_complaint"
 )
 
 builder.add_edge(
-    "escalation",
-    "response"
+    "hr_agent",
+    "create_complaint"
+)
+
+builder.add_edge(
+    "review_agent",
+    "create_complaint"
 )
 
 # ----------------------------------
@@ -178,6 +231,20 @@ builder.add_edge(
 
 builder.add_edge(
     "create_ticket",
+    "response"
+)
+
+# ----------------------------------
+# DUPLICATE FLOW
+# ----------------------------------
+
+builder.add_edge(
+    "increase_priority",
+    "escalation"
+)
+
+builder.add_edge(
+    "escalation",
     "response"
 )
 

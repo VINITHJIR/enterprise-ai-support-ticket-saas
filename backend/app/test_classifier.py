@@ -4,9 +4,7 @@ from app.ai.complaint_analyzer import (
 
 result = analyze_message(
     """
-    I attended interview
-    4 months ago and still
-    no update received.
+  Recruiter is not responding after my interview
     """
 )
 

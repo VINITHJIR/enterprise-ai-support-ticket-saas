@@ -4,7 +4,7 @@ from app.services.complaint_service import (
 
 
 def check_existing_node(state):
-
+    print("CHECK EXISTING CATEGORY =", state["category"])
     complaint = (
         ComplaintService.check_existing_complaint(
             db=state["db"],

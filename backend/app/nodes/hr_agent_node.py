@@ -12,5 +12,5 @@ def hr_agent_node(state):
     )
 
     state["response"] = response
-
+    print("HR Agent Executed")
     return state
