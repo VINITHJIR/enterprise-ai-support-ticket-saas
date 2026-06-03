@@ -7,11 +7,13 @@ from langgraph.graph import (
 from app.states.support_state import (
     SupportState
 )
-from app.nodes.category_router_node import (
-    category_router_node
-)
+
 from app.nodes.analyze_node import (
     analyze_node
+)
+
+from app.nodes.manager_node import (
+    manager_node
 )
 
 from app.nodes.check_existing_node import (
@@ -50,6 +52,7 @@ from app.nodes.review_agent_node import (
     review_agent_node
 )
 
+
 # ----------------------------------
 # ROUTERS
 # ----------------------------------
@@ -67,23 +70,12 @@ def existing_router(state):
     if state["complaint_exists"]:
         return "increase_priority"
 
-    return "category_router"
+    return "manager"
 
 
-def category_router(state):
+def manager_router(state):
 
-    category = state["category"]
-
-    if category == "INVOICE":
-        return "invoice_agent"
-
-    if category == "HR_RECRUITMENT":
-        return "hr_agent"
-
-    if category == "GOOGLE_REVIEW":
-        return "review_agent"
-
-    return "response"
+    return state["selected_agent"]
 
 
 # ----------------------------------
@@ -109,13 +101,15 @@ builder.add_node(
 )
 
 builder.add_node(
+    "manager",
+    manager_node
+)
+
+builder.add_node(
     "invoice_agent",
     invoice_agent_node
 )
-builder.add_node(
-    "category_router",
-    category_router_node
-)
+
 builder.add_node(
     "hr_agent",
     hr_agent_node
@@ -182,22 +176,22 @@ builder.add_conditional_edges(
     existing_router,
     {
         "increase_priority": "increase_priority",
-        "category_router": "category_router"
+        "manager": "manager"
     }
 )
 
 # ----------------------------------
-# CATEGORY ROUTING
+# MANAGER ROUTING
 # ----------------------------------
 
 builder.add_conditional_edges(
-    "category_router",
-    category_router,
+    "manager",
+    manager_router,
     {
         "invoice_agent": "invoice_agent",
         "hr_agent": "hr_agent",
         "review_agent": "review_agent",
-        "response": "response"
+        "analytics_agent": "response"
     }
 )
 

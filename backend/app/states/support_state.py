@@ -23,3 +23,5 @@ class SupportState(TypedDict):
     ticket_id: Optional[int]
 
     response: Optional[str]
+
+    selected_agent: str

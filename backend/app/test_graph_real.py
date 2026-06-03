@@ -11,7 +11,7 @@ db = SessionLocal()
 
 result = support_graph.invoke(
     {
-        "message": "Invoice payment not reflected",
+        "message": "invoice not generated last 10 days",
         "user_id": 1,
         "db": db
     }
