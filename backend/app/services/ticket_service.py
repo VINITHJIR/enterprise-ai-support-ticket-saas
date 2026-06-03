@@ -40,26 +40,21 @@ class TicketService:
     @staticmethod
     def increase_priority(
             db: Session,
-            ticket
+            ticket,
+            target_priority: str
     ):
 
-        if ticket.priority == TicketPriority.LOW:
+        priority_mapping = {
+            "LOW": TicketPriority.LOW,
+            "MEDIUM": TicketPriority.MEDIUM,
+            "HIGH": TicketPriority.HIGH
+        }
 
-            return TicketRepository.update_priority(
-                db,
-                ticket,
-                TicketPriority.MEDIUM
-            )
-
-        if ticket.priority == TicketPriority.MEDIUM:
-
-            return TicketRepository.update_priority(
-                db,
-                ticket,
-                TicketPriority.HIGH
-            )
-
-        return ticket
+        return TicketRepository.update_priority(
+            db,
+            ticket,
+            priority_mapping[target_priority]
+        )
 
     @staticmethod
     def get_user_tickets(
