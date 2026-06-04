@@ -9,6 +9,9 @@ from app.workflows.hr_workflow import (
 from app.workflows.review_workflow import (
     execute_review_workflow
 )
+from app.services.analytics_service import (
+    AnalyticsService
+)
 ACTION_MAP = {
 
     "CREATE_INVOICE_COMPLAINT":
@@ -33,6 +36,19 @@ class ToolExecutor:
         action = (
             tool_result["action"]
         )
+
+        if action == "GET_ANALYTICS":
+
+            result = AnalyticsService.get_summary(
+                state["db"]
+            )
+
+            print(
+                "ANALYTICS RESULT =",
+                result
+            )
+
+            return result
 
         workflow = (
             ACTION_MAP[action]

@@ -29,7 +29,18 @@ Categories:
    - google review
    - business review
    - rating
+4. ANALYTICS
+   If user asks:
 
+    How many tickets?
+    How many complaints?
+    Analytics?
+    Statistics?
+    Reports?
+
+    Return:
+
+    ANALYTICS
 Return JSON only:
 
 {{
@@ -37,6 +48,7 @@ Return JSON only:
     "category": "HR_RECRUITMENT",
     "priority": "HIGH"
 }}
+
 
 User Message:
 

@@ -24,4 +24,4 @@ class SupportState(TypedDict):
 
     response: Optional[str]
 
-    selected_agent: str
+    selected_agent: Optional[str]

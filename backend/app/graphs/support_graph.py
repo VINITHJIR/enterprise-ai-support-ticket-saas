@@ -7,7 +7,9 @@ from langgraph.graph import (
 from app.states.support_state import (
     SupportState
 )
-
+from app.nodes.analytics_agent_node import (
+    analytics_agent_node
+)
 from app.nodes.analyze_node import (
     analyze_node
 )
@@ -39,11 +41,15 @@ from app.nodes.review_agent_node import (
 
 def complaint_router(state):
 
+    category = state["category"]
+
+    if category == "ANALYTICS":
+        return "manager"
+
     if state["is_complaint"]:
         return "manager"
 
     return "response"
-
 
 def manager_router(state):
 
@@ -71,7 +77,10 @@ builder.add_node(
     "manager",
     manager_node
 )
-
+builder.add_node(
+    "analytics_agent",
+    analytics_agent_node
+)
 builder.add_node(
     "invoice_agent",
     invoice_agent_node
@@ -122,9 +131,17 @@ builder.add_conditional_edges(
     "manager",
     manager_router,
     {
-        "invoice_agent": "invoice_agent",
-        "hr_agent": "hr_agent",
-        "review_agent": "review_agent"
+        "invoice_agent":
+        "invoice_agent",
+
+        "hr_agent":
+        "hr_agent",
+
+        "review_agent":
+        "review_agent",
+
+        "analytics_agent":
+        "analytics_agent"
     }
 )
 
@@ -146,7 +163,10 @@ builder.add_edge(
     "review_agent",
     "response"
 )
-
+builder.add_edge(
+    "analytics_agent",
+    "response"
+)
 # ----------------------------------
 # END
 # ----------------------------------

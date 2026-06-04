@@ -1,15 +1,26 @@
 class ManagerAgent:
 
     @staticmethod
-    def route(category: str):
+    def route(
+        category
+    ):
 
-        if category == "INVOICE":
-            return "invoice_agent"
+        mapping = {
 
-        if category == "HR_RECRUITMENT":
-            return "hr_agent"
+            "INVOICE":
+            "invoice_agent",
 
-        if category == "GOOGLE_REVIEW":
-            return "review_agent"
+            "HR_RECRUITMENT":
+            "hr_agent",
 
-        return "analytics_agent"
+            "GOOGLE_REVIEW":
+            "review_agent",
+
+            "ANALYTICS":
+            "analytics_agent"
+        }
+
+        return mapping.get(
+            category,
+            "response"
+        )

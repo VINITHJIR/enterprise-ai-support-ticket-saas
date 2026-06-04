@@ -3,16 +3,14 @@ from app.agents.manager_agent import (
 )
 
 
-def manager_node(state):
+def manager_node(
+    state
+):
 
-    selected_agent = (
+    state["selected_agent"] = (
         ManagerAgent.route(
             state["category"]
         )
-    )
-
-    state["selected_agent"] = (
-        selected_agent
     )
 
     return state
