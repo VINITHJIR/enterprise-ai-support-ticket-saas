@@ -1,14 +1,13 @@
-from app.agents.tool_calling_review_agent import (
-    ToolCallingReviewAgent
+from app.agents.autonomous_review_agent import (
+    AutonomousReviewAgent
 )
 
+def review_agent_node(state):
 
-def review_agent_node(
-    state
-):
-
-    return (
-        ToolCallingReviewAgent.process(
+    state["response"] = (
+        AutonomousReviewAgent.process(
             state
         )
     )
+
+    return state

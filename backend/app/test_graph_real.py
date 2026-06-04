@@ -13,7 +13,7 @@ db = SessionLocal()
 result = support_graph.invoke(
     {
     "message":
-    "Google review removed unfairly",
+    "Recruiter not responding",
 
     "user_id":
     1,

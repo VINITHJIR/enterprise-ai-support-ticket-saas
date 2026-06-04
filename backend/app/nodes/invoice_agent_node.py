@@ -1,22 +1,13 @@
-from app.agents.tool_calling_invoice_agent import (
-    ToolCallingInvoiceAgent
+from app.agents.autonomous_invoice_agent import (
+    AutonomousInvoiceAgent
 )
-
 
 def invoice_agent_node(state):
 
-    print(
-        "TOOL CALLING INVOICE AGENT EXECUTED"
-    )
-
-    result = (
-        ToolCallingInvoiceAgent.process(
+    state["response"] = (
+        AutonomousInvoiceAgent.process(
             state
         )
-    )
-
-    state.update(
-        result
     )
 
     return state

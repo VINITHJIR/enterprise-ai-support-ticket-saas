@@ -1,14 +1,13 @@
-from app.agents.tool_calling_hr_agent import (
-    ToolCallingHRAgent
+from app.agents.autonomous_hr_agent import (
+    AutonomousHRAgent
 )
 
+def hr_agent_node(state):
 
-def hr_agent_node(
-    state
-):
-
-    return (
-        ToolCallingHRAgent.process(
+    state["response"] = (
+        AutonomousHRAgent.process(
             state
         )
     )
+
+    return state
