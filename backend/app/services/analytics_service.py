@@ -1,5 +1,3 @@
-from sqlalchemy.orm import Session
-
 from app.repositories.analytics_repository import (
     AnalyticsRepository
 )
@@ -8,9 +6,7 @@ from app.repositories.analytics_repository import (
 class AnalyticsService:
 
     @staticmethod
-    def get_summary(
-        db: Session
-    ):
+    def get_dashboard_metrics(db):
 
         return {
 
@@ -30,7 +26,20 @@ class AnalyticsService:
             ),
 
             "invoice_complaints":
-            AnalyticsRepository.invoice_complaints(
-                db
+            AnalyticsRepository.complaints_by_category(
+                db,
+                "INVOICE"
+            ),
+
+            "hr_complaints":
+            AnalyticsRepository.complaints_by_category(
+                db,
+                "HR_RECRUITMENT"
+            ),
+
+            "review_complaints":
+            AnalyticsRepository.complaints_by_category(
+                db,
+                "GOOGLE_REVIEW"
             )
         }

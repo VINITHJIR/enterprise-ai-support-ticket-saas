@@ -14,7 +14,7 @@ result = (
     support_graph.invoke(
         {
             "message":
-            "How many complaints are there?",
+           "How many invoice complaints are there?",
 
             "user_id":
             2,

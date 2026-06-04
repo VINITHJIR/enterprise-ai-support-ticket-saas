@@ -1,22 +1,12 @@
-from sqlalchemy.orm import Session
-
 from app.models.complaint_model import Complaint
 from app.models.ticket_model import Ticket
-from app.models.escalation_email_model import (
-    EscalationEmail
-)
-
-from app.enums.complaint_enum import (
-    ComplaintCategory
-)
+from app.models.escalation_email_model import EscalationEmail
 
 
 class AnalyticsRepository:
 
     @staticmethod
-    def total_complaints(
-        db: Session
-    ):
+    def total_complaints(db):
 
         return (
             db.query(Complaint)
@@ -24,9 +14,7 @@ class AnalyticsRepository:
         )
 
     @staticmethod
-    def total_tickets(
-        db: Session
-    ):
+    def total_tickets(db):
 
         return (
             db.query(Ticket)
@@ -34,27 +22,23 @@ class AnalyticsRepository:
         )
 
     @staticmethod
-    def total_escalations(
-        db: Session
-    ):
+    def total_escalations(db):
 
         return (
-            db.query(
-                EscalationEmail
-            )
+            db.query(EscalationEmail)
             .count()
         )
 
     @staticmethod
-    def invoice_complaints(
-        db: Session
+    def complaints_by_category(
+        db,
+        category
     ):
 
         return (
             db.query(Complaint)
             .filter(
-                Complaint.category ==
-                ComplaintCategory.INVOICE
+                Complaint.category == category
             )
             .count()
         )
