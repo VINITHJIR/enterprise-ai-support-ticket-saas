@@ -6,10 +6,13 @@ def hr_complaint_tool(
     complaint_text: str
 ):
     """
-    Handle HR recruitment complaints.
+    Create an HR complaint request.
     """
 
     return {
-        "action": "CREATE_HR_COMPLAINT",
-        "complaint_text": complaint_text
+        "action":
+        "CREATE_HR_COMPLAINT",
+
+        "complaint_text":
+        complaint_text
     }

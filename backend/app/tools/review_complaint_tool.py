@@ -6,10 +6,13 @@ def review_complaint_tool(
     complaint_text: str
 ):
     """
-    Handle review complaints.
+    Create review complaint request.
     """
 
     return {
-        "action": "CREATE_REVIEW_COMPLAINT",
-        "complaint_text": complaint_text
+        "action":
+        "CREATE_REVIEW_COMPLAINT",
+
+        "complaint_text":
+        complaint_text
     }

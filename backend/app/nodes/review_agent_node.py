@@ -1,16 +1,14 @@
-from app.agents.review_agent import (
-    ReviewAgent
+from app.agents.tool_calling_review_agent import (
+    ToolCallingReviewAgent
 )
 
 
-def review_agent_node(state):
+def review_agent_node(
+    state
+):
 
-    response = (
-        ReviewAgent.handle(
-            state["message"]
+    return (
+        ToolCallingReviewAgent.process(
+            state
         )
     )
-
-    state["response"] = response
-    print("Review Agent Executed")
-    return state

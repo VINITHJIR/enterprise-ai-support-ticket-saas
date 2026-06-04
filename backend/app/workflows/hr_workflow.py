@@ -3,7 +3,7 @@ from app.workflows.base_complaint_workflow import (
 )
 
 
-def execute_invoice_workflow(
+def execute_hr_workflow(
     state,
     tool_result
 ):

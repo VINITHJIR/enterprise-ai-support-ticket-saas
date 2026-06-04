@@ -1,16 +1,14 @@
-from app.agents.hr_agent import (
-    HRAgent
+from app.agents.tool_calling_hr_agent import (
+    ToolCallingHRAgent
 )
 
 
-def hr_agent_node(state):
+def hr_agent_node(
+    state
+):
 
-    response = (
-        HRAgent.handle(
-            state["message"]
+    return (
+        ToolCallingHRAgent.process(
+            state
         )
     )
-
-    state["response"] = response
-    print("HR Agent Executed")
-    return state

@@ -12,15 +12,16 @@ db = SessionLocal()
 
 result = support_graph.invoke(
     {
-        "message":
-        "Invoice not generated for last 10 days",
+    "message":
+    "Google review removed unfairly",
 
-        "user_id":
-        1,
+    "user_id":
+    1,
 
-        "db":
-        db
+    "db":
+    db
     }
 )
 
 print(result)
+
