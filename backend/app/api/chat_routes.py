@@ -9,6 +9,10 @@ from app.schemas.chat_schema import (
     ChatRequest
 )
 
+from app.services.memory_service import (
+    MemoryService
+)
+
 from app.dependencies.auth_dependency import (
     get_current_user
 )
@@ -27,12 +31,23 @@ router = APIRouter(
 
 @router.post("/")
 def chat(
-        request: ChatRequest,
-        db: Session = Depends(get_db),
-        current_user: User = Depends(
-            get_current_user
-        )
+    request: ChatRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(
+        get_current_user
+    )
 ):
+
+    # Save User Message
+
+    MemoryService.save_message(
+        db=db,
+        user_id=current_user.id,
+        role="user",
+        content=request.message
+    )
+
+    # Process AI Workflow
 
     result = (
         LangGraphOrchestrator.process(
@@ -40,6 +55,15 @@ def chat(
             user_id=current_user.id,
             db=db
         )
+    )
+
+    # Save Assistant Response
+
+    MemoryService.save_message(
+        db=db,
+        user_id=current_user.id,
+        role="assistant",
+        content=result.get("response")
     )
 
     return {

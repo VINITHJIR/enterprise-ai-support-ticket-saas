@@ -19,6 +19,7 @@ const logout = () => {
         background: "#1e293b",
         color: "white",
         padding: "20px",
+        flexShrink: 0,
       }}
     >
       <h2>Support SaaS</h2>
