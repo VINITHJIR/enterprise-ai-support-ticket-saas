@@ -8,9 +8,7 @@ from app.tools.analytics_tool import (
     analytics_tool
 )
 
-from app.runtime.tool_executor import (
-    ToolExecutor
-)
+
 
 
 tools = [
