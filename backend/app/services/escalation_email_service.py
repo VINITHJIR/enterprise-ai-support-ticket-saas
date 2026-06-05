@@ -21,3 +21,16 @@ class EscalationEmailService:
                 email_content=email_content
             )
         )
+    @staticmethod
+    def get_user_emails(
+            db,
+            user_id
+    ):
+
+        return (
+            EscalationEmailRepository
+            .get_user_emails(
+                db,
+                user_id
+            )
+        )

@@ -66,3 +66,4 @@ class TicketService:
             db,
             user_id
         )
+    
