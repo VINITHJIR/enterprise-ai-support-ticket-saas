@@ -26,4 +26,8 @@ class SupportState(TypedDict):
 
     selected_agent: Optional[str]
 
+    followup_handled: bool
+
+    followup_response: Optional[str]
+
     memory_context: str

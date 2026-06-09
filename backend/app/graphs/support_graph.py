@@ -3,6 +3,9 @@ from langgraph.graph import (
     START,
     END
 )
+from app.nodes.followup_agent_node import (
+    followup_agent_node
+)
 from app.nodes.memory_node import (memory_node)
 from app.states.support_state import (
     SupportState
@@ -55,7 +58,14 @@ def manager_router(state):
 
     return state["selected_agent"]
 
+def followup_router(state):
 
+    if state.get(
+        "followup_handled"
+    ):
+        return "response"
+
+    return "analyze"
 # ----------------------------------
 # GRAPH
 # ----------------------------------
@@ -72,7 +82,10 @@ builder.add_node(
     "analyze",
     analyze_node
 )
-
+builder.add_node(
+    "followup_agent",
+    followup_agent_node
+)
 builder.add_node(
     "manager",
     manager_node
@@ -117,13 +130,20 @@ builder.add_edge(
 
 builder.add_edge(
     "memory",
-    "analyze"
+    "followup_agent"
 )
 
 # ----------------------------------
 # ANALYZE ROUTING
 # ----------------------------------
-
+builder.add_conditional_edges(
+    "followup_agent",
+    followup_router,
+    {
+        "response": "response",
+        "analyze": "analyze"
+    }
+)
 builder.add_conditional_edges(
     "analyze",
     complaint_router,
