@@ -1,7 +1,13 @@
 from fastapi import APIRouter
 from fastapi import Depends
-
+from app.services.qdrant_memory_service import (
+    QdrantMemoryService
+)
 from sqlalchemy.orm import Session
+from app.services.followup_llm_service import (
+    FollowupLLMService
+)
+
 
 from app.core.database import get_db
 
@@ -23,6 +29,10 @@ from app.orchestrators.langgraph_orchestrator import (
     LangGraphOrchestrator
 )
 
+
+from app.services.followup_agent_service import (
+    FollowupAgentService
+)
 router = APIRouter(
     prefix="/api/chat",
     tags=["AI Chat"]
@@ -46,9 +56,21 @@ def chat(
         role="user",
         content=request.message
     )
+    
+   
 
+    
+
+    
     # Process AI Workflow
+    QdrantMemoryService.save_memory(
 
+    user_id=current_user.id,
+
+    role="user",
+
+    content=request.message
+)
     result = (
         LangGraphOrchestrator.process(
             message=request.message,
@@ -56,6 +78,20 @@ def chat(
             db=db
         )
     )
+    QdrantMemoryService.save_memory(
+
+    user_id=current_user.id,
+
+    role="assistant",
+
+    content=result.get("response"),
+
+    ticket_id=
+    result.get("ticket_id"),
+
+    complaint_id=
+    result.get("complaint_id")
+)
 
     # Save Assistant Response
 
@@ -74,7 +110,7 @@ def chat(
 
         "category":
             result.get("category"),
-
+  
         "priority":
             result.get("priority"),
 

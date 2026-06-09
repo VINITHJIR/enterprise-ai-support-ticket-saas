@@ -25,3 +25,5 @@ class SupportState(TypedDict):
     response: Optional[str]
 
     selected_agent: Optional[str]
+
+    memory_context: str

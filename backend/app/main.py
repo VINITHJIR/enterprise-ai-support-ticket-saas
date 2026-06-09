@@ -8,8 +8,9 @@ from app.models.user_model import User
 from app.models.complaint_model import Complaint
 from app.models.ticket_model import Ticket
 from app.models.escalation_email_model import EscalationEmail
-from app.api.memory_routes import (
-    router as memory_router
+from app.api.memory_routes import (router as memory_router)
+from app.services.qdrant_service import (
+    QdrantService
 )
 from app.api.auth_routes import (
     router as auth_router
@@ -40,7 +41,11 @@ Base.metadata.create_all(
 # -------------------------
 
 app = FastAPI()
+QdrantService.create_collection()
+@app.on_event("startup")
+def startup():
 
+    QdrantService.create_collection()
 # -------------------------
 # CORS
 # -------------------------

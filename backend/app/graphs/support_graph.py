@@ -3,7 +3,7 @@ from langgraph.graph import (
     START,
     END
 )
-
+from app.nodes.memory_node import (memory_node)
 from app.states.support_state import (
     SupportState
 )
@@ -101,12 +101,22 @@ builder.add_node(
     response_node
 )
 
+builder.add_node(
+    "memory",
+    memory_node
+)
+
 # ----------------------------------
 # START
 # ----------------------------------
 
 builder.add_edge(
     START,
+    "memory"
+)
+
+builder.add_edge(
+    "memory",
     "analyze"
 )
 
